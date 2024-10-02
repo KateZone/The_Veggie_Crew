@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Recipe Ranking</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+        }
+        .recipe {
+            display: flex;
+            align-items: center;
+            margin-bottom: 10px;
+        }
+        .recipe-name {
+            margin-right: 10px;
+        }
+        .like-button {
+            margin-right: 10px;
+            cursor: pointer;
+        }
+        #notice {
+            margin-top: 20px;
+            color: red;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+
+<h2>Recipe Ranking</h2>
+
+<div id="recipes">
+    <div class="recipe">
+        <span class="recipe-name">Recipe 1</span>
+        <button class="like-button" onclick="likeRecipe(0)">Like</button>
+        <span id="likes-0">0</span> Likes
+    </div>
+
+    <div class="recipe">
+        <span class="recipe-name">Recipe 2</span>
+        <button class="like-button" onclick="likeRecipe(1)">Like</button>
+        <span id="likes-1">0</span> Likes
+    </div>
+
+    <div class="recipe">
+        <span class="recipe-name">Recipe 3</span>
+        <button class="like-button" onclick="likeRecipe(2)">Like</button>
+        <span id="likes-2">0</span> Likes
+    </div>
+
+    <div class="recipe">
+        <span class="recipe-name">Recipe 4</span>
+        <button class="like-button" onclick="likeRecipe(3)">Like</button>
+        <span id="likes-3">0</span> Likes
+    </div>
+
+    <div class="recipe">
+        <span class="recipe-name">Recipe 5</span>
+        <button class="like-button" onclick="likeRecipe(4)">Like</button>
+        <span id="likes-4">0</span> Likes
+    </div>
+</div>
+
+<h3>Ranking:</h3>
+<ol id="ranking"></ol>
+
+<p id="notice"></p>
+
+<script>
+    const recipes = [
+        { name: "Recipe 1", likes: 0 },
+        { name: "Recipe 2", likes: 0 },
+        { name: "Recipe 3", likes: 0 },
+        { name: "Recipe 4", likes: 0 },
+        { name: "Recipe 5", likes: 0 }
+    ];
+
+    const likeLimits = [0, 0, 0, 0, 0]; // Stores the number of likes per user for each recipe
+    const maxLikesPerRecipe = 5; // Max likes allowed per recipe
+
+    function likeRecipe(index) {
+        if (likeLimits[index] < maxLikesPerRecipe) {
+            recipes[index].likes++;
+            likeLimits[index]++;
+            document.getElementById(`likes-${index}`).innerText = recipes[index].likes;
+            document.getElementById("notice").innerText = ''; // Clear notice if any
+            updateRanking();
+        } else {
+            showFunnyNotice();
+        }
+    }
+
+    function updateRanking() {
+        const sortedRecipes = [...recipes].sort((a, b) => b.likes - a.likes);
+        const rankingElement = document.getElementById('ranking');
+        rankingElement.innerHTML = '';
+        sortedRecipes.forEach(recipe => {
+            const listItem = document.createElement('li');
+            listItem.textContent = `${recipe.name} - ${recipe.likes} Likes`;
+            rankingElement.appendChild(listItem);
+        });
+    }
+
+    function showFunnyNotice() {
+        const funnyMessages = [
+            "We get it, you really love this recipe! Let's give others a chance!",
+            "Whoa there! You've hit the like limit for this one!",
+            "You're a superfan, but 5 likes is the max!",
+            "Okay, we get it, it's delicious! No need to keep clicking!",
+            "Hold on, are you trying to break the like button? It's already maxed out!"
+        ];
+        const randomIndex = Math.floor(Math.random() * funnyMessages.length);
+        document.getElementById("notice").innerText = funnyMessages[randomIndex];
+    }
+
+    // Initialize ranking
+    updateRanking();
+</script>
+
+</body>
+</html>

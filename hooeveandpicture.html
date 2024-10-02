@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>theVeggieCrew</title>
+    <style>
+        #recipe-image {
+            display: none;
+            margin-top: 20px;
+        }
+        #recipe-image img {
+            max-width: 300px;
+            border: 1px solid #ccc;
+            padding: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        }
+    </style>
+</head>
+<body>
+    <div id="title">
+        <h1>~Hello~the~Veggie~Crew~</h1>
+        <h2>Hover over a recipe to see the picture!</h2>
+    </div>
+
+    <div id="recipes-list">
+        <ol>
+            <li onmouseover="showImage('crispy-sesame-tofu.jpg')" onmouseout="hideImage()">Crispy Sesame Tofu</li>
+            <li onmouseover="showImage('vegan-polo-asado.jpg')" onmouseout="hideImage()">Vegan Polo Asado</li>
+            <li onmouseover="showImage('dry-pot-cauliflower.jpg')" onmouseout="hideImage()">Dry Pot Cauliflower</li>
+            <li onmouseover="showImage('yu-xiang-eggplant.jpg')" onmouseout="hideImage()">Yu~Xiang~Eggplant</li>
+            <li onmouseover="showImage('vegetable-shakshuka.jpg')" onmouseout="hideImage()">Vegetable Shakshuka</li>
+        </ol>
+    </div>
+
+    <!-- Image container -->
+    <div id="recipe-image">
+        <img id="image" src="" alt="Recipe Image">
+    </div>
+
+    <script>
+        function showImage(imageSrc) {
+            const imgElement = document.getElementById('image');
+            imgElement.src = imageSrc; // Set the image source
+            document.getElementById('recipe-image').style.display = 'block'; // Show the image container
+        }
+
+        function hideImage() {
+            document.getElementById('recipe-image').style.display = 'none'; // Hide the image container
+        }
+    </script>
+
+</body>
+</html>

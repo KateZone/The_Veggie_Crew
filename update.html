@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>theVeggieCrew</title>
+    <link rel="stylesheet" href="./style.css">
+    <style>
+        .recipe {
+            display: flex;
+            align-items: center;
+            margin-bottom: 10px;
+        }
+        .recipe-name {
+            margin-right: 10px;
+        }
+        .like-button {
+            margin-left: 15px;
+            cursor: pointer;
+        }
+        #notice {
+            margin-top: 20px;
+            color: red;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+    <div id="title" draggable="false">
+        <h1>~Hello~the~Veggie~Crew~</h1>
+        <h2>The following dishes are the Veggie Crew Members' recipes, they are all very delicious</h2>
+        <h3><a>Choose your Favorite Recipes :</a></h3>
+    </div>
+
+    <div id="paragraph">
+        <ol id="recipes-list">
+            <li class="recipe">
+                <span class="recipe-name">Crispy Sesame Tofu</span>
+                <button class="like-button" onclick="likeRecipe(0)">Like</button>
+                <span id="likes-0">0</span> Likes
+            </li>
+            <li class="recipe">
+                <span class="recipe-name">Vegan Polo Asado</span>
+                <button class="like-button" onclick="likeRecipe(1)">Like</button>
+                <span id="likes-1">0</span> Likes
+            </li>
+            <li class="recipe">
+                <span class="recipe-name">Dry Pot Cauliflower</span>
+                <button class="like-button" onclick="likeRecipe(2)">Like</button>
+                <span id="likes-2">0</span> Likes
+            </li>
+            <li class="recipe">
+                <span class="recipe-name">Yu~Xiang~Eggplant</span>
+                <button class="like-button" onclick="likeRecipe(3)">Like</button>
+                <span id="likes-3">0</span> Likes
+            </li>
+            <li class="recipe">
+                <span class="recipe-name">Vegetable Shakshuka</span>
+                <button class="like-button" onclick="likeRecipe(4)">Like</button>
+                <span id="likes-4">0</span> Likes
+            </li>
+            <!-- Add more recipes in similar format -->
+        </ol>
+    </div>
+
+    <h3>Ranking:</h3>
+    <ol id="ranking"></ol>
+
+    <p id="notice"></p>
+
+    <script>
+        const recipes = [
+            { name: "Crispy Sesame Tofu", likes: 0 },
+            { name: "Vegan Polo Asado", likes: 0 },
+            { name: "Dry Pot Cauliflower", likes: 0 },
+            { name: "Yu~Xiang~Eggplant", likes: 0 },
+            { name: "Vegetable Shakshuka", likes: 0 }
+            // Add more recipes as needed
+        ];
+
+        const likeLimits = Array(recipes.length).fill(0); // Initialize like limits for each recipe
+        const maxLikesPerRecipe = 5; // Max likes allowed per recipe
+
+        function likeRecipe(index) {
+            if (likeLimits[index] < maxLikesPerRecipe) {
+                recipes[index].likes++;
+                likeLimits[index]++;
+                document.getElementById(`likes-${index}`).innerText = recipes[index].likes;
+                document.getElementById("notice").innerText = ''; // Clear notice if any
+                updateRanking();
+            } else {
+                showFunnyNotice();
+            }
+        }
+
+        function updateRanking() {
+            const sortedRecipes = [...recipes].sort((a, b) => b.likes - a.likes);
+            const rankingElement = document.getElementById('ranking');
+            rankingElement.innerHTML = '';
+            sortedRecipes.forEach(recipe => {
+                const listItem = document.createElement('li');
+                listItem.textContent = `${recipe.name} - ${recipe.likes} Likes`;
+                rankingElement.appendChild(listItem);
+            });
+        }
+
+        function showFunnyNotice() {
+            const funnyMessages = [
+                "Whoa there! You're a fan, but 5 likes is the limit!",
+                "You've maxed out your love for this recipe!",
+                "Hold up! You've hit the like button too many times!",
+                "We appreciate your enthusiasm, but 5 is enough!",
+                "Looks like this recipe is your favorite! But no more likes!"
+            ];
+            const randomIndex = Math.floor(Math.random() * funnyMessages.length);
+            document.getElementById("notice").innerText = funnyMessages[randomIndex];
+        }
+
+        // Initialize ranking
+        updateRanking();
+    </script>
+</body>
+</html>
